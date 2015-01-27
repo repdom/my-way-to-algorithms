@@ -1,4 +1,5 @@
 import operator
+import os
 
 def merge_sort(lst, compare = operator.lt):
 	if len(lst) < 2:
@@ -39,10 +40,15 @@ def merge(left, right, compare):
 
 	return result,inversions_counter
 
-def test_algorithms (lst, num_inv):
-	ordered,inversions = merge_sort(lst)
-	assert  inversions == num_inv
-	print lst, ": Number of inversions -> ", inversions
+def test_algorithms ():
+	sum = 0
+	lst = []
+	with open('test.txt') as f:
+		for line in f:
+			lst.append(int(line))
 
-test_algorithms([2,3,6,5,1,4], 7)
-test_algorithms([1,3,5,2,4, 6], 3)
+	ordered,inversions = merge_sort(lst)
+
+	print "Number of inversions -> ", inversions
+
+test_algorithms()
