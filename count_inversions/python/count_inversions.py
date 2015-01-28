@@ -44,8 +44,7 @@ def test_algorithms ():
 	sum = 0
 	lst = []
 	with open('test.txt') as f:
-		for line in f:
-			lst.append(int(line))
+		lst = [int(i) 	for i in f.readlines()]
 
 	ordered,inversions = merge_sort(lst)
 
