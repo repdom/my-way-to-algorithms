@@ -38,9 +38,9 @@ def swap( L, x, y ):
 def test_algorithms (sorted, unsorted):
 	expected = quick_sort(unsorted)
 	assert  expected == sorted
-	print unsorted, ": sorted result -> ", expected
+	print "sorted result -> ", expected
 
-test_algorithms([1], [1])
+test_algorithms([1,2,3,4,5,6,7,8,9], [1,3,5,7,9,8,6,4,2])
 test_algorithms([1, 2], [2, 1])
 test_algorithms([1, 2, 3], [2, 3, 1])
 test_algorithms([1, 2, 3, 4], [2, 3, 1, 4])
