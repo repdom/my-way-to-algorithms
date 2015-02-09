@@ -1,7 +1,7 @@
 def dfs_iter(graph, start, visited=[]):
 	stack=[start]
 	while stack:
-		v = stack.pop(0)
+		v = stack.pop() #LIFO
 		if v not in visited:
 			visited.append(v)
 			stack.extend(graph[v])
