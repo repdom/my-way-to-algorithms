@@ -1,43 +1,57 @@
-from collections import defaultdict
-from heapq import *
+from heapq import heappush, heappop
 
-def dijkstra(edges, f, t):
-	g = defaultdict(list)
-	for l,r,c in edges:
-		g[l].append((c,r))
+def main(fileName):
+    G = {}
+    with open(fileName,"r") as f:
+        for line in f:
+            G[int(line.split()[0])] = {(int(tup.split(",")[0])): int(tup.split(",")[1]) for tup in line.split()[1:] if tup}
 
-	q, seen = [(0,f,())], set()
-	while q:
-		(cost,v1,path) = heappop(q)
-		if v1 not in seen:
-			seen.add(v1)
-			path = (v1, path)
-			if v1 == t: return (cost, path)
+    f.close()
 
-			for c, v2 in g.get(v1, ()):
-				if v2 not in seen:
-					heappush(q, (cost+c, v2, path))
+    endList = [7, 37, 59, 82, 99, 115, 133, 165, 188, 197]
+    for i in range(len(endList)):
+        D, _ = dijkstra(G, 1, endList[i])
+        endList[i] = (endList[i], D[endList[i]])
 
-	return float("inf")
+    print findshortestPath(G, 1, 114)
+
+    return endList
+
+
+def dijkstra(G, start, end = None):
+    distance = {vertex: float("inf") for vertex in G}
+    path = {vertex: None for vertex in G}
+    queue = [(0, start)]
+    visited = set()
+
+    distance[start] = 0
+
+    while queue:
+        _, vertex = heappop(queue)
+        if vertex in visited: continue
+
+        visited.add(vertex)
+        if vertex == end: break
+
+        for w in G[vertex]:
+            vwLength = distance[vertex] + G[vertex][w]
+            if vwLength < distance[w]:
+                distance[w], path[w] = vwLength, vertex
+
+            heappush(queue, (distance[w], w))
+
+    return distance, path
+
+def findshortestPath(G, start, end):
+    _, P = dijkstra(G, start, end)
+    path = []
+    while True:
+        path.insert(0, end)
+        if end == start: break
+        end = P[end]
+
+    #path.reverse()
+    return path
 
 if __name__ == "__main__":
-	edges = [
-		("A", "B", 7),
-		("A", "D", 5),
-		("B", "C", 8),
-		("B", "D", 9),
-		("B", "E", 7),
-		("C", "E", 5),
-		("D", "E", 15),
-		("D", "F", 6),
-		("E", "F", 8),
-		("E", "G", 9),
-		("F", "G", 11)
-	]
-
-	print "=== Dijkstra ==="
-	print edges
-	print "A -> E:"
-	print dijkstra(edges, "A", "E")
-	print "F -> G:"
-	print dijkstra(edges, "F", "G")
+    print main("dijkstraData.txt")
