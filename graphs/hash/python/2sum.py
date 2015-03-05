@@ -1,11 +1,7 @@
 import sys
 import threading
 
-def TwoSum(lst, target):
-    hashtable = dict()
-
-    for num in lst:
-        hashtable[num] = True
+def TwoSum(hashtable, target):
 
     for x in hashtable:
         y =  target - x
@@ -17,9 +13,13 @@ def TwoSum(lst, target):
 def main():
     lines = open('algo1-programming_prob-2sum.txt').read().splitlines()
     data = map(lambda x: int(x), lines)
+    hashtable = dict()
+    for num in data:
+        hashtable[num] = True
+
     count = 0
     for target in range(-10000,10000+1):
-        if TwoSum(data, target):
+        if TwoSum(hashtable, target):
             count += 1
     print count
 
